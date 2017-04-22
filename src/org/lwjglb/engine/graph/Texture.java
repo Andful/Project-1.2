@@ -2,6 +2,10 @@ package org.lwjglb.engine.graph;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
 import de.matthiasmann.twl.utils.PNGDecoder.Format;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
@@ -28,7 +32,9 @@ public class Texture {
 
     private static int loadTexture(String fileName) throws Exception {
         // Load Texture file
-        PNGDecoder decoder = new PNGDecoder(Texture.class.getClassLoader().getResourceAsStream(fileName));
+        InputStream in=new FileInputStream(new File(fileName));
+        //Texture.class.getClassLoader().getResourceAsStream(fileName);
+        PNGDecoder decoder = new PNGDecoder(in);//
 
         // Load texture contents into a byte buffer
         ByteBuffer buf = ByteBuffer.allocateDirect(
@@ -52,6 +58,7 @@ public class Texture {
                 GL_RGBA, GL_UNSIGNED_BYTE, buf);
         // Generate Mip Map
         glGenerateMipmap(GL_TEXTURE_2D);
+        in.close();
         return textureId;
     }
 

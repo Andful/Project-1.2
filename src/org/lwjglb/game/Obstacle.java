@@ -3,10 +3,6 @@ package org.lwjglb.game;
 import org.lwjglb.engine.GameItem;
 import org.lwjglb.engine.graph.Mesh;
 import org.lwjglb.engine.graph.Texture;
-import org.joml.*;
-
-import java.lang.Math;
-import java.util.List;
 
 /**
  * Created Lucas on 3/21/2017.
