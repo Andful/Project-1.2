@@ -1,7 +1,5 @@
 package org.lwjglb.AI;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,18 +12,39 @@ public class Environment {
 	private List<Vector3f> agentStartConfigurations;
 	private List<Vector3f> agentEndConfigurations;
 	
-	public Environment(File environment, File obstacles, File configurations) throws Exception{
+	public Environment(File environment, File obstacles, File configurations) throws IOException{
 		
 		try(DataInputStream in = new DataInputStream(new FileInputStream(environment))) {
 			
 			environmentSize = new Vector3f(in.readFloat(), in.readFloat(), in.readFloat());
 			
 		}
-		
 		try(DataInputStream in = new DataInputStream(new FileInputStream(obstacles))){
+			final int size=in.readInt();
+			obstaclesPositions = new ArrayList<Vector3f>(size);
+			for(int i=0;i<size;i++)
+			{
+				obstaclesPositions.add(new Vector3f(in.readFloat(),in.readFloat(),in.readFloat()));
+			}
 			
-			obstaclesPositions = new ArrayList<Vector3f>(in.readInt());
-			
+		}
+		try(DataInputStream in = new DataInputStream(new FileInputStream(configurations)))
+		{
+			int sizeStartConf = in.readInt();
+			agentStartConfigurations = new ArrayList<Vector3f>(sizeStartConf);
+			for(int i=0; i<sizeStartConf;i++)
+			{
+				agentEndConfigurations.add(new Vector3f(in.readFloat(),in.readFloat(),in.readFloat()));
+			}
+
+			int sizeEndConf = in.readInt();
+			agentEndConfigurations = new ArrayList<Vector3f>(sizeEndConf);
+			for(int i=0; i<sizeEndConf;i++){
+
+				agentEndConfigurations.add(new Vector3f(in.readFloat(),in.readFloat(),in.readFloat()));
+
+			}
+
 		}
 		
 	}
@@ -35,6 +54,47 @@ public class Environment {
 		this.obstaclesPositions = obstaclesPositions;
 		this.agentEndConfigurations = agentEndConfigurations;
 		this.agentStartConfigurations = agentStartConfigurations;
+	}
+
+	public void environmentToFile(File environment, File obstacles, File configurations) throws IOException{
+
+		try(DataOutputStream out = new DataOutputStream(new FileOutputStream(environment))){
+
+			out.writeFloat(environmentSize.x);
+			out.writeFloat(environmentSize.y);
+			out.writeFloat(environmentSize.z);
+		}
+		try(DataOutputStream out = new DataOutputStream(new FileOutputStream(obstacles))){
+
+			out.writeInt(obstaclesPositions.size());
+
+			for(Vector3f vec:obstaclesPositions)
+			{
+				out.writeFloat(vec.x);
+				out.writeFloat(vec.y);
+				out.writeFloat(vec.z);
+			}
+		}
+		try(DataOutputStream out = new DataOutputStream(new FileOutputStream(configurations)))
+		{
+
+			out.writeInt(agentStartConfigurations.size());
+
+			for(Vector3f vec:agentStartConfigurations){
+				out.writeFloat(vec.x);
+				out.writeFloat(vec.y);
+				out.writeFloat(vec.z);
+			}
+
+			out.writeInt(agentEndConfigurations.size());
+
+			for(Vector3f vec:agentEndConfigurations){
+				out.writeFloat(vec.x);
+				out.writeFloat(vec.y);
+				out.writeFloat(vec.z);
+			}
+
+		}
 	}
 	
 	public static void main(String[] args)
