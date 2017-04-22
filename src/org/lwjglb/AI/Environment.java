@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import org.joml.Vector3f;
 
 public class Environment {
@@ -34,7 +35,7 @@ public class Environment {
 			agentStartConfigurations = new ArrayList<Vector3f>(sizeStartConf);
 			for(int i=0; i<sizeStartConf;i++)
 			{
-				agentEndConfigurations.add(new Vector3f(in.readFloat(),in.readFloat(),in.readFloat()));
+				agentStartConfigurations.add(new Vector3f(in.readFloat(),in.readFloat(),in.readFloat()));
 			}
 
 			int sizeEndConf = in.readInt();
@@ -96,10 +97,47 @@ public class Environment {
 
 		}
 	}
-	
 	public static void main(String[] args)
 	{
-		List a=new ArrayList<Vector3f>(5);
-		System.out.println(a.size());
+		//testWrite(args);
+		testRead(args);
+	}
+	public static void testWrite(String[] args)
+	{
+		Vector3f enviromentSize=new Vector3f(4,5,6);
+		List<Vector3f> obstacles=new ArrayList();
+		obstacles.add(new Vector3f(1,2,3));
+		obstacles.add(new Vector3f(4,5,6));
+		List<Vector3f> start=new ArrayList<>();
+		start.add(new Vector3f(7,8,9));
+		start.add(new Vector3f(10,11,12));
+		List<Vector3f> end=new ArrayList<>();
+		end.add(new Vector3f(13,14,15));
+		end.add(new Vector3f(16,17,18));
+		Environment env=new Environment(enviromentSize,obstacles,start,end);
+		try
+		{
+			env.environmentToFile(new File("C:\\Users\\Andrea Nardi\\Desktop\\test\\a"),
+					new File("C:\\Users\\Andrea Nardi\\Desktop\\test\\b"),
+					new File("C:\\Users\\Andrea Nardi\\Desktop\\test\\c"));
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	public static void testRead(String[] args){
+		Environment env = null;
+		try{
+			env = new Environment(new File("C:\\Users\\Andrea Nardi\\Desktop\\test\\a"),
+					new File("C:\\Users\\Andrea Nardi\\Desktop\\test\\b"),
+					new File("C:\\Users\\Andrea Nardi\\Desktop\\test\\c"));
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		System.out.println(env.environmentSize);
+		System.out.println(env.obstaclesPositions);
+		System.out.println(env.agentStartConfigurations);
+		System.out.println(env.agentEndConfigurations);
 	}
 }
