@@ -8,8 +8,7 @@ import org.lwjglb.engine.IGameLogic;
 import org.lwjglb.engine.MouseInput;
 import org.lwjglb.engine.Window;
 import org.lwjglb.engine.graph.Camera;
-import org.lwjglb.engine.graph.Mesh;
-import org.lwjglb.engine.graph.Texture;
+import org.lwjglb.engine.MainMenu;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -63,21 +62,21 @@ public class DummyGame implements IGameLogic {
     }
 
     @Override
-    public void input(Window window, MouseInput mouseInput) {
+    public void input(Window window, MouseInput mouseInput, MainMenu inputGui) {
         cameraInc.set(0, 0, 0);
-        if (window.isKeyPressed(GLFW_KEY_W)) {
+        if (window.isKeyPressed(GLFW_KEY_W)||inputGui.cameraForwards()) {
             cameraInc.z = -1;
-        } else if (window.isKeyPressed(GLFW_KEY_S)) {
+        } else if (window.isKeyPressed(GLFW_KEY_S)||inputGui.cameraBackwards()) {
             cameraInc.z = 1;
         }
-        if (window.isKeyPressed(GLFW_KEY_A)) {
+        if (window.isKeyPressed(GLFW_KEY_A)||inputGui.cameraLeft()) {
             cameraInc.x = -1;
-        } else if (window.isKeyPressed(GLFW_KEY_D)) {
+        } else if (window.isKeyPressed(GLFW_KEY_D)||inputGui.cameraRight()) {
             cameraInc.x = 1;
         }
-        if (window.isKeyPressed(GLFW_KEY_Z)) {
+        if (window.isKeyPressed(GLFW_KEY_Z)||inputGui.cameraDown()) {
             cameraInc.y = -1;
-        } else if (window.isKeyPressed(GLFW_KEY_Q)) {
+        } else if (window.isKeyPressed(GLFW_KEY_Q)||inputGui.cameraUp()) {
             cameraInc.y = 1;
         }
     }
@@ -96,7 +95,7 @@ public class DummyGame implements IGameLogic {
     }
 
     @Override
-    public void update(float interval, MouseInput mouseInput) {
+    public void update(float interval, MouseInput mouseInput, MainMenu inputGui) {
         //System.out.println(interval);
         // Update camera position
         camera.movePosition(cameraInc.x * CAMERA_POS_STEP, cameraInc.y * CAMERA_POS_STEP, cameraInc.z * CAMERA_POS_STEP);
