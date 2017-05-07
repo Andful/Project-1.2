@@ -1,25 +1,31 @@
 package org.lwjglb.game;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3i;
+import org.lwjglb.AI.PathFindingAlgorithm;
 import org.lwjglb.engine.GameItem;
 import org.lwjglb.engine.graph.Mesh;
+import org.lwjglb.engine.graph.ShaderProgram;
 import org.lwjglb.engine.graph.Texture;
+import org.lwjglb.engine.graph.Transformation;
+
+import java.util.List;
 
 /**
- * Created Lucas on 3/21/2017.
+ * Created by Andrea Nardi on 5/levels.2/2017.
  */
-public class Obstacle extends GameItem implements Block
+public class AgentDrawer extends GameItem
 {
-
-    public Obstacle()
+    private List<Vector3i> agentsPosition;
+    private List<List<PathFindingAlgorithm.Movment<Integer>>> movmentList;
+    private int index=-1;
+    public AgentDrawer(List<Vector3i> agentPositions,List<List<PathFindingAlgorithm.Movment<Integer>>> movmentList)
     {
-        super(getObstacleMesh());
-        setScale(SCALE);
-
+        super(getAgentMesh());
+        this.agentsPosition=agentPositions;
+        this.movmentList=movmentList;
     }
-
-
-
-    public static Mesh getObstacleMesh()
+    public static Mesh getAgentMesh()
     {
         float[] positions = new float[]{
                 // V0
@@ -107,12 +113,54 @@ public class Obstacle extends GameItem implements Block
         Texture texture=null;
         try
         {
-            texture = new Texture("resources/textures/box.png");
+            texture = new Texture("resources/textures/grassblock.png");
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
         return new Mesh(positions,textCoords,indices,texture);
+    }
+    public void draw(ShaderProgram shaderProgram, Transformation transformation, Matrix4f viewMatrix)
+    {
+        // Set model view matrix for this item
+        for (Vector3i position:agentsPosition)
+        {
+            setPosition(position.x,position.y,position.z);
+            Matrix4f modelViewMatrix = transformation.getModelViewMatrix(this, viewMatrix);
+        shaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
+        // Render the mes for this game item
+        this.getMesh().render();
+        }
+    }
+    public void nextMove()
+    {
+        index++;
+        List<PathFindingAlgorithm.Movment<Integer>> moves=null;
+        if(index>=movmentList.size())
+        {
+            index=movmentList.size()-1;
+        }
+        else
+        {
+            moves=movmentList.get(index);
+            System.out.println("size:"+movmentList.size());
+            for(PathFindingAlgorithm.Movment<Integer> m:moves)
+            {
+                agentsPosition.set(m.id,m.to);
+            }
+        }
+    }
+    public void previouseMove()
+    {
+        if(index>=0)
+        {
+            List<PathFindingAlgorithm.Movment<Integer>> moves=movmentList.get(index);
+            for(PathFindingAlgorithm.Movment<Integer> m:moves)
+            {
+                agentsPosition.set(m.id,m.from);
+            }
+            index--;
+        }
     }
 }

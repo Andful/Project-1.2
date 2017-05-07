@@ -1,4 +1,5 @@
 package org.lwjglb.AI;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,14 +7,14 @@ import java.util.List;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 import org.joml.Vector3f;
 
-public class Environment {
+public class EnvironmentFloat {
 
 	private Vector3f environmentSize;
 	private List<Vector3f> obstaclesPositions;
 	private List<Vector3f> agentStartConfigurations;
 	private List<Vector3f> agentEndConfigurations;
 	
-	public Environment(File environment, File obstacles, File configurations) throws IOException{
+	public EnvironmentFloat(File environment, File obstacles, File configurations) throws IOException{
 		
 		try(DataInputStream in = new DataInputStream(new FileInputStream(environment))) {
 			
@@ -49,8 +50,15 @@ public class Environment {
 		}
 		
 	}
-	
-	public Environment(Vector3f environmentSize, List<Vector3f> obstaclesPositions, List<Vector3f> agentStartConfigurations, List<Vector3f> agentEndConfigurations){
+
+	public EnvironmentFloat(File directory) throws IOException
+	{
+		this(new File(directory.toString() + File.separator + "enviroment size.project"),
+				new File(directory.toString() + File.separator + "obstacles.project"),
+				new File(directory.toString() + File.separator + "configuration.project"));
+	}
+
+	public EnvironmentFloat(Vector3f environmentSize, List<Vector3f> obstaclesPositions, List<Vector3f> agentStartConfigurations, List<Vector3f> agentEndConfigurations){
 		this.environmentSize = environmentSize;
 		this.obstaclesPositions = obstaclesPositions;
 		this.agentEndConfigurations = agentEndConfigurations;
@@ -114,7 +122,7 @@ public class Environment {
 		List<Vector3f> end=new ArrayList<>();
 		end.add(new Vector3f(13,14,15));
 		end.add(new Vector3f(16,17,18));
-		Environment env=new Environment(enviromentSize,obstacles,start,end);
+		EnvironmentFloat env=new EnvironmentFloat(enviromentSize,obstacles,start,end);
 		try
 		{
 			env.environmentToFile(new File("C:\\Users\\Andrea Nardi\\Desktop\\test\\a"),
@@ -127,9 +135,9 @@ public class Environment {
 		}
 	}
 	public static void testRead(String[] args){
-		Environment env = null;
+		EnvironmentFloat env = null;
 		try{
-			env = new Environment(new File("C:\\Users\\Andrea Nardi\\Desktop\\test\\a"),
+			env = new EnvironmentFloat(new File("C:\\Users\\Andrea Nardi\\Desktop\\test\\a"),
 					new File("C:\\Users\\Andrea Nardi\\Desktop\\test\\b"),
 					new File("C:\\Users\\Andrea Nardi\\Desktop\\test\\c"));
 		}catch(IOException e){

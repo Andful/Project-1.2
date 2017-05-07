@@ -1,7 +1,10 @@
 package org.lwjglb.engine;
 
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjglb.engine.graph.Mesh;
+import org.lwjglb.engine.graph.ShaderProgram;
+import org.lwjglb.engine.graph.Transformation;
 
 public class GameItem {
 
@@ -54,5 +57,14 @@ public class GameItem {
     
     public Mesh getMesh() {
         return mesh;
+    }
+
+    public void draw(ShaderProgram shaderProgram, Transformation transformation, Matrix4f viewMatrix)
+    {
+        // Set model view matrix for this item
+        Matrix4f modelViewMatrix = transformation.getModelViewMatrix(this, viewMatrix);
+        shaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
+        // Render the mes for this game item
+        this.getMesh().render();
     }
 }

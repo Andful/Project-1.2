@@ -3,6 +3,11 @@ package org.lwjglb.game;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import static org.lwjgl.glfw.GLFW.*;
+
+import org.joml.Vector3i;
+import org.lwjglb.AI.EnvironmentInt;
+import org.lwjglb.AI.PathFindingAlgorithm;
+import org.lwjglb.AI.VectorizedEnviromentGreedyPathFinding;
 import org.lwjglb.engine.GameItem;
 import org.lwjglb.engine.IGameLogic;
 import org.lwjglb.engine.MouseInput;
@@ -10,6 +15,7 @@ import org.lwjglb.engine.Window;
 import org.lwjglb.engine.graph.Camera;
 import org.lwjglb.engine.MainMenu;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,9 +31,7 @@ public class DummyGame implements IGameLogic {
 
     private List<GameItem> gameItems;
 
-    private List<Agent> agents;
-
-    private List<Block> blocks;
+    private AgentDrawer agentDrawer;
 
     private static final float CAMERA_POS_STEP = 0.05f;
 
@@ -37,28 +41,55 @@ public class DummyGame implements IGameLogic {
         cameraInc = new Vector3f(0, 0, 0);
 
         gameItems = new LinkedList<>();
-        blocks=new LinkedList<>();
-        agents=new LinkedList<>();
     }
 
     @Override
     public void init(Window window) throws Exception {
         renderer.init(window);
 
+        List<Vector3i> agentsPosition;
 
+        List<Vector3i> endPosition;
 
-        Obstacle box1 = new Obstacle();
-        box1.setPosition(5,0,5);
+        List<Vector3i> blocksPosition;
 
-        gameItems.add(new Floor());
-        blocks.add(box1);
+        Vector3i enviromentSize;
 
-        agents=new LinkedList<>();
-        agents.add(new Agent(blocks));
-        agents.get(0).setPosition(0,1.5f,0);
-        agents.add(new Agent(blocks));
+        List<List<PathFindingAlgorithm.Movment<Integer>>> movments=new LinkedList<>();
 
-        mergeLists();
+        EnvironmentInt enviroment=new EnvironmentInt(new java.io.File("resources\\levels\\1\\"));
+
+        enviromentSize=enviroment.getEnvironmentSize();
+
+        agentsPosition=enviroment.getAgentStartConfigurations();
+
+        endPosition=enviroment.getAgentEndConfigurations();
+
+        List<Vector3i> obstacles=enviroment.getObstaclesPositions();
+
+        gameItems.add(new ObstacleDrawer(obstacles));
+        gameItems.add(new StartConfigurationDrawer(agentsPosition));
+        gameItems.add(new Floor(enviromentSize));
+        gameItems.add(new EndConfigurationDrawer(endPosition));
+        gameItems.add(agentDrawer=new AgentDrawer(agentsPosition,movments));
+        new Thread()
+        {
+            public void run()
+            {
+                new VectorizedEnviromentGreedyPathFinding<Integer>().
+
+                        computeMovments(enviromentSize, agentsPosition, new LinkedList<Integer>()
+                        {
+                            {
+                                int size = agentsPosition.size();
+                                for (int i = 0; i < size; i++)
+                                {
+                                    add(i);
+                                }
+                            }
+                        }, endPosition, obstacles, movments);
+            }
+        }.start();
     }
 
     @Override
@@ -79,37 +110,30 @@ public class DummyGame implements IGameLogic {
         } else if (window.isKeyPressed(GLFW_KEY_Q)||inputGui.cameraUp()) {
             cameraInc.y = 1;
         }
-    }
 
-    public void mergeLists()
-    {
-        for(Agent agent:agents)
+        if(window.isKeyPressed(GLFW_KEY_RIGHT) && !right)
         {
-            blocks.add(agent);
+            agentDrawer.nextMove();
         }
-
-        for(Block block:blocks)
+        if(window.isKeyPressed(GLFW_KEY_LEFT) && !left)
         {
-            gameItems.add((GameItem) block);
+            agentDrawer.previouseMove();
         }
+        left=window.isKeyPressed(GLFW_KEY_LEFT);
+        right=window.isKeyPressed(GLFW_KEY_RIGHT);
     }
+    boolean left;
+    boolean right;
 
     @Override
     public void update(float interval, MouseInput mouseInput, MainMenu inputGui) {
-        //System.out.println(interval);
         // Update camera position
         camera.movePosition(cameraInc.x * CAMERA_POS_STEP, cameraInc.y * CAMERA_POS_STEP, cameraInc.z * CAMERA_POS_STEP);
-        //System.out.println(mouseInput.getDeltaPosition());
         // Update camera based on mouse
         if (mouseInput.isLeftButtonPressed()) {
             Vector2f rotVec = mouseInput.getDisplVec();
             camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
         }
-        if(mouseInput.isRightButtonPressed())
-            for (Agent agent: agents)
-            {
-                agent.update(interval,blocks);
-            }
     }
 
     @Override
@@ -122,10 +146,6 @@ public class DummyGame implements IGameLogic {
         renderer.cleanup();
         for (GameItem gameItem : gameItems) {
             gameItem.getMesh().cleanUp();
-        }
-        for(Agent agent:agents )
-        {
-            agent.getMesh().cleanUp();
         }
     }
 

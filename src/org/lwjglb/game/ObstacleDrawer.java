@@ -1,68 +1,26 @@
 package org.lwjglb.game;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3i;
 import org.lwjglb.engine.GameItem;
 import org.lwjglb.engine.graph.Mesh;
+import org.lwjglb.engine.graph.ShaderProgram;
 import org.lwjglb.engine.graph.Texture;
-import org.joml.*;
+import org.lwjglb.engine.graph.Transformation;
 
-import java.lang.Math;
 import java.util.List;
 
 /**
- * Created by Andrea Nardi on 3/21/2017.
+ * Created by Andrea Nardi on 5/levels.2/2017.
  */
-
-
-public class Agent extends GameItem implements Block
+public class ObstacleDrawer extends GameItem
 {
-    private static final Vector3f G=new Vector3f(0.0f,-9.81f,0.0f);
-    private Vector3f acceleration;
-    private Vector3f velocity;
-    private List<Block> blocks;
-    public Agent(List<Block> blocks)
+    private List<Vector3i> agentsPosition;
+    public ObstacleDrawer(List<Vector3i> agentPositions)
     {
         super(getAgentMesh());
-        setScale(SCALE);
-        velocity=new Vector3f();
-        this.blocks=blocks;
+        this.agentsPosition=agentPositions;
     }
-
-    public void update(float interval,List<Block> blocks)
-    {
-        //System.out.println(toString()+" "+getPosition().toString());
-        move(interval);
-    }
-    public void move(float interval)
-    {
-        addPosition((new Vector3f(velocity)).mul(interval));
-        checkCollision();
-    }
-    public void setVelocity(Vector3f velocity)
-    {
-        this.velocity=velocity;
-    }
-    private void checkCollision()
-    {
-        for(Block block:blocks)
-        {
-            checkCollision(block);
-        }
-    }
-    private void checkCollision(Block block)
-    {
-        if(block!=this && Math.abs(getPosition().x-block.getPosition().x)<DISTANCE_FROM_CENTER*2
-                && Math.abs(getPosition().y-block.getPosition().y)<DISTANCE_FROM_CENTER*2
-                && Math.abs(getPosition().z-block.getPosition().z)<DISTANCE_FROM_CENTER*2)
-        {
-            Vector3f toAdd=new Vector3f(velocity).normalize().mul(-2*DISTANCE_FROM_CENTER);
-            setPosition(toAdd.x==0?getPosition().x:toAdd.x+block.getPosition().x,
-                    toAdd.y==0?getPosition().y:toAdd.y+block.getPosition().y,
-                    toAdd.z==0?getPosition().z:toAdd.z+block.getPosition().z
-            );
-        }
-    }
-
-
     public static Mesh getAgentMesh()
     {
         float[] positions = new float[]{
@@ -112,29 +70,29 @@ public class Agent extends GameItem implements Block
                 0.5f, -0.5f, 0.5f,};
         float[] textCoords = new float[]{
                 0.0f, 0.0f,
-                0.0f, 0.5f,
-                0.5f, 0.5f,
-                0.5f, 0.0f,
+                0.0f, 1f,
+                1f, 1f,
+                1f, 0.0f,
                 0.0f, 0.0f,
-                0.5f, 0.0f,
-                0.0f, 0.5f,
-                0.5f, 0.5f,
+                1f, 0.0f,
+                0.0f, 1f,
+                1f, 1f,
                 // For text coords in top face
-                0.0f, 0.5f,
-                0.5f, 0.5f,
+                0.0f, 0.0f,
+                1.0f, 0.0f,
                 0.0f, 1.0f,
-                0.5f, 1.0f,
+                1.0f, 1.0f,
                 // For text coords in right face
                 0.0f, 0.0f,
-                0.0f, 0.5f,
+                0.0f, 1.0f,
                 // For text coords in left face
-                0.5f, 0.0f,
-                0.5f, 0.5f,
-                // For text coords in bottom face
-                0.5f, 0.0f,
                 1.0f, 0.0f,
-                0.5f, 0.5f,
-                1.0f, 0.5f,};
+                1.0f, 1.0f,
+                // For text coords in bottom face
+                1.0f, 0.0f,
+                1.0f, 0.0f,
+                1.0f, 1.0f,
+                1.0f, 1.0f,};
         int[] indices = new int[]{
                 // Front face
                 0, 1, 3, 3, 1, 2,
@@ -151,12 +109,24 @@ public class Agent extends GameItem implements Block
         Texture texture=null;
         try
         {
-            texture = new Texture("resources/textures/grassblock.png");
+            texture = new Texture("resources/textures/floor.png");
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
         return new Mesh(positions,textCoords,indices,texture);
+    }
+    public void draw(ShaderProgram shaderProgram, Transformation transformation, Matrix4f viewMatrix)
+    {
+        // Set model view matrix for this item
+        for (Vector3i position:agentsPosition)
+        {
+            setPosition(position.x,position.y,position.z);
+            Matrix4f modelViewMatrix = transformation.getModelViewMatrix(this, viewMatrix);
+            shaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
+            // Render the mes for this game item
+            this.getMesh().render();
+        }
     }
 }
