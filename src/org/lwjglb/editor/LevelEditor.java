@@ -128,7 +128,7 @@ public class LevelEditor extends JFrame {
                                 addActionListener(new ActionListener() {
                                     @Override
                                     public void actionPerformed(ActionEvent e) {
-                                        if(chooser.showOpenDialog(LevelEditor.this)==JFileChooser.APPROVE_OPTION);
+                                        if(chooser.showOpenDialog(LevelEditor.this)==JFileChooser.APPROVE_OPTION)
                                         {
                                             File directory=chooser.getSelectedFile();
                                             if(directory!=null) {

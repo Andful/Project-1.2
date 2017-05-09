@@ -111,16 +111,16 @@ public class DummyGame implements IGameLogic {
             cameraInc.y = 1;
         }
 
-        if(window.isKeyPressed(GLFW_KEY_RIGHT) && !right)
+        if((window.isKeyPressed(GLFW_KEY_RIGHT)||inputGui.nextTimeStep()) && !right)
         {
             agentDrawer.nextMove();
         }
-        if(window.isKeyPressed(GLFW_KEY_LEFT) && !left)
+        if((window.isKeyPressed(GLFW_KEY_LEFT)||inputGui.previouseTimeStep()) && !left)
         {
             agentDrawer.previouseMove();
         }
-        left=window.isKeyPressed(GLFW_KEY_LEFT);
-        right=window.isKeyPressed(GLFW_KEY_RIGHT);
+        right=(window.isKeyPressed(GLFW_KEY_RIGHT)||inputGui.nextTimeStep());
+        left=(window.isKeyPressed(GLFW_KEY_LEFT)||inputGui.previouseTimeStep());
     }
     boolean left;
     boolean right;

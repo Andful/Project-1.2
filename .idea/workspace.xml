@@ -2,13 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdbceb9c-ef81-4a55-b517-20a7d3f5be94" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/levels/1/configuration.project" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/levels/1/enviroment size.project" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/levels/1/obstacles.project" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/levels/2/configuration.project" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/levels/2/enviroment size.project" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/levels/2/obstacles.project" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/furthestFirst.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/furthestFirst.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lwjglb/editor/LevelEditor.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/editor/LevelEditor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lwjglb/engine/MainMenu.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/engine/MainMenu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lwjglb/game/AgentDrawer.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/game/AgentDrawer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lwjglb/game/DummyGame.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/game/DummyGame.java" />
     </list>
     <ignored path="ModRob.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,11 +33,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DummyGame.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DummyGame.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/lwjglb/game/DummyGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="78" column="36" lean-forward="true" selection-start-line="78" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+            <state relative-caret-position="139">
+              <caret line="120" column="9" lean-forward="false" selection-start-line="120" selection-start-column="9" selection-end-line="120" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -46,14 +45,24 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="AgentDrawer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/lwjglb/game/AgentDrawer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="145" column="41" lean-forward="false" selection-start-line="145" selection-start-column="41" selection-end-line="145" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="LevelEditor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/lwjglb/editor/LevelEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="283" column="29" lean-forward="false" selection-start-line="283" selection-start-column="29" selection-end-line="283" selection-end-column="29" />
+            <state relative-caret-position="251">
+              <caret line="131" column="41" lean-forward="true" selection-start-line="131" selection-start-column="41" selection-end-line="131" selection-end-column="41" />
               <folding>
                 <element signature="docComment;class#LevelEditor#0" expanded="false" />
-                <element signature="method#LevelEditor#0;class#LevelEditor#0" expanded="false" />
+                <element signature="method#mouseDragged#0;class#8731:11173" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -69,7 +78,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PathFindingAlgorithm.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PathFindingAlgorithm.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/PathFindingAlgorithm.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="305">
@@ -79,14 +88,40 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="MainMenu.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/lwjglb/engine/MainMenu.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="19">
+              <caret line="190" column="13" lean-forward="false" selection-start-line="190" selection-start-column="13" selection-end-line="190" selection-end-column="13" />
+              <folding>
+                <element signature="e#7216#7217#0" expanded="true" />
+                <element signature="e#7258#7259#0" expanded="true" />
+                <element signature="e#7303#7304#0" expanded="true" />
+                <element signature="e#7349#7350#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MouseEvent.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/awt/event/MouseEvent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-786">
+              <caret line="194" column="28" lean-forward="false" selection-start-line="194" selection-start-column="28" selection-end-line="194" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="furthestFirst.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/furthestFirst.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+            <state relative-caret-position="246">
+              <caret line="96" column="19" lean-forward="false" selection-start-line="96" selection-start-column="19" selection-end-line="96" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#6828#6837#0" expanded="true" />
+                <element signature="e#2303#2312#0" expanded="true" />
+                <element signature="e#7717#7726#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -105,7 +140,7 @@
       <file leaf-file-name="PathFindingAlgorithmReDo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/PathFindingAlgorithmReDo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
+            <state relative-caret-position="-540">
               <caret line="10" column="37" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -205,8 +240,6 @@
         <option value="$PROJECT_DIR$/src/org/lwjglb/game/StartConfigurationDrawer.java" />
         <option value="$PROJECT_DIR$/src/org/lwjglb/game/EndConfigurationDrawer.java" />
         <option value="$PROJECT_DIR$/src/org/lwjglb/AI/PathFindingAlgorithm.java" />
-        <option value="$PROJECT_DIR$/src/org/lwjglb/game/AgentDrawer.java" />
-        <option value="$PROJECT_DIR$/src/org/lwjglb/engine/MainMenu.java" />
         <option value="$PROJECT_DIR$/src/org/lwjglb/Util/Array2D.java" />
         <option value="$PROJECT_DIR$/src/org/lwjglb/AI/LevelPathFinding.java" />
         <option value="$PROJECT_DIR$/src/org/lwjglb/AI/EnvironmentFloat .java" />
@@ -218,12 +251,14 @@
         <option value="$PROJECT_DIR$/src/org/lwjglb/AI/VectorizedEnviromentGreedyOneStepAtATimePathFinding.java" />
         <option value="$PROJECT_DIR$/src/org/lwjglb/Util/Array3D.java" />
         <option value="$PROJECT_DIR$/src/org/lwjglb/AI/PathFindingAlgorithmReDo.java" />
-        <option value="$PROJECT_DIR$/src/org/lwjglb/editor/LevelEditor.java" />
         <option value="$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/VectorizedEnviromentGreedyPathFinding.java" />
         <option value="$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/PathFindingAlgorithmReDo.java" />
-        <option value="$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/furthestFirst.java" />
-        <option value="$PROJECT_DIR$/src/org/lwjglb/game/DummyGame.java" />
         <option value="$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/PathFindingAlgorithm.java" />
+        <option value="$PROJECT_DIR$/src/org/lwjglb/engine/MainMenu.java" />
+        <option value="$PROJECT_DIR$/src/org/lwjglb/editor/LevelEditor.java" />
+        <option value="$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/furthestFirst.java" />
+        <option value="$PROJECT_DIR$/src/org/lwjglb/game/AgentDrawer.java" />
+        <option value="$PROJECT_DIR$/src/org/lwjglb/game/DummyGame.java" />
       </list>
     </option>
   </component>
@@ -303,6 +338,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Project-1.2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Project-1.2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lwjglb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="engine" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -927,7 +984,14 @@
       <option name="project" value="LOCAL" />
       <updated>1494322559013</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Furthermore created generics for AI algorithms">
+      <created>1494324030581</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1494324030581</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -941,7 +1005,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -958,12 +1022,12 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3418741" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3418741" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3504" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35015774" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1066,8 +1130,14 @@
           <properties />
           <option name="timeStamp" value="92" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/lwjglb/game/DummyGame.java</url>
+          <line>96</line>
+          <properties />
+          <option name="timeStamp" value="103" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="103" />
+      <option name="time" value="104" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -1080,13 +1150,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/lang/Class.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2940">
-          <caret line="263" column="0" lean-forward="false" selection-start-line="263" selection-start-column="0" selection-end-line="263" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Downloads/es_4.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1229,14 +1292,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/lwjglb/game/AgentDrawer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2190">
-          <caret line="155" column="19" lean-forward="false" selection-start-line="155" selection-start-column="19" selection-end-line="155" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/lwjglb/game/ObstacleDrawer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1830">
@@ -1294,13 +1349,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/lwjglb/engine/MainMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="47" column="41" lean-forward="false" selection-start-line="47" selection-start-column="41" selection-end-line="47" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/lwjglb/physics/Function.java" />
     <entry file="file://$PROJECT_DIR$/src/org/lwjglb/physics/MotionEquations.java" />
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/util/LinkedList.java">
@@ -1352,48 +1400,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/furthestFirst.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#6828#6837#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/PathFindingAlgorithmReDo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="37" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/lwjglb/game/DummyGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="78" column="36" lean-forward="true" selection-start-line="78" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/lwjglb/editor/LevelEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="283" column="29" lean-forward="false" selection-start-line="283" selection-start-column="29" selection-end-line="283" selection-end-column="29" />
-          <folding>
-            <element signature="docComment;class#LevelEditor#0" expanded="false" />
-            <element signature="method#LevelEditor#0;class#LevelEditor#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/lwjglb/game/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1407,6 +1413,78 @@
         <state relative-caret-position="305">
           <caret line="27" column="5" lean-forward="true" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/awt/event/MouseEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-786">
+          <caret line="194" column="28" lean-forward="false" selection-start-line="194" selection-start-column="28" selection-end-line="194" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/lwjglb/engine/MainMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="190" column="13" lean-forward="false" selection-start-line="190" selection-start-column="13" selection-end-line="190" selection-end-column="13" />
+          <folding>
+            <element signature="e#7216#7217#0" expanded="true" />
+            <element signature="e#7258#7259#0" expanded="true" />
+            <element signature="e#7303#7304#0" expanded="true" />
+            <element signature="e#7349#7350#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/lwjglb/editor/LevelEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="131" column="41" lean-forward="true" selection-start-line="131" selection-start-column="41" selection-end-line="131" selection-end-column="41" />
+          <folding>
+            <element signature="docComment;class#LevelEditor#0" expanded="false" />
+            <element signature="method#mouseDragged#0;class#8731:11173" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/furthestFirst.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="96" column="19" lean-forward="false" selection-start-line="96" selection-start-column="19" selection-end-line="96" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2303#2312#0" expanded="true" />
+            <element signature="e#7717#7726#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/PathFindingAlgorithmReDo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-540">
+          <caret line="10" column="37" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/lwjglb/game/AgentDrawer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="145" column="41" lean-forward="false" selection-start-line="145" selection-start-column="41" selection-end-line="145" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/lwjglb/game/DummyGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="120" column="9" lean-forward="false" selection-start-line="120" selection-start-column="9" selection-end-line="120" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

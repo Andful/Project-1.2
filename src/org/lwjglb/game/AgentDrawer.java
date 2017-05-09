@@ -144,7 +144,6 @@ public class AgentDrawer extends GameItem
         else
         {
             moves=movmentList.get(index);
-            System.out.println("size:"+movmentList.size());
             for(PathFindingAlgorithm.Movment<Integer> m:moves)
             {
                 agentsPosition.set(m.id,m.to);

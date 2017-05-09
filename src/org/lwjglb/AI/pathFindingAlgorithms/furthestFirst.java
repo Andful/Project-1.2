@@ -51,7 +51,7 @@ public class furthestFirst<AgentId> implements PathFindingAlgorithm<AgentId>
             {
                 AgentId id=ids.next();
                 Vector3i position=positions.next();
-                furthestFirst.Agent agent=new furthestFirst.Agent(id,position);
+                Agent agent=new Agent(id,position);
                 agents.add(agent);
                 movableAgents.add(agent);
             }
@@ -62,10 +62,39 @@ public class furthestFirst<AgentId> implements PathFindingAlgorithm<AgentId>
             while(blocks.get(end)!=AGENT)
             {
                 Array3D<Integer> distance = generateDistanceArray(sizeEnviroment, blocks, end);
-                doSingleMove(movableAgents,blocks,distance,result);
+                lastMoved=doSingleMove(movableAgents,blocks,distance,result);
             }
             movableAgents.remove(lastMoved);
         }
+    }
+    public boolean separates(Vector3i agentPosition,Array3D<Integer> blocks)
+    {
+        boolean oneDFS;
+        Array3D<Boolean> checked=new Array3D<Boolean>(blocks.size(),false);
+        class aFunction
+        {
+            public boolean doDFS(Vector3i pos,Array3D<Boolean> checked,Array3D<Integer> blocks)
+            {
+                if(checked.isInBound(pos) && !checked.get(pos) && blocks.get(pos)==AGENT)
+                {
+
+                }
+                return true;
+
+            }
+        }
+        aFunction f=new aFunction();
+        for(int p=-1;p<=1;p+=2)
+        {
+            {
+                Vector3i toUse = new Vector3i(agentPosition.x + p, agentPosition.y, agentPosition.z);
+                //if()
+            }
+            {
+                Vector3i toUse = new Vector3i(agentPosition.x, agentPosition.y, agentPosition.z + p);
+            }
+        }
+        return true;
     }
     public Agent doSingleMove(List<Agent> movableAgents,Array3D<Integer> blocks,Array3D<Integer> distance,List<List<Movment<AgentId>>> result)
     {
