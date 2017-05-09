@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fdbceb9c-ef81-4a55-b517-20a7d3f5be94" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/furthestFirst.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/AI/pathFindingAlgorithms/furthestFirst.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lwjglb/editor/LevelEditor.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/editor/LevelEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lwjglb/engine/MainMenu.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/engine/MainMenu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lwjglb/game/AgentDrawer.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/game/AgentDrawer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lwjglb/game/DummyGame.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/game/DummyGame.java" />
     </list>
     <ignored path="ModRob.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -991,7 +986,14 @@
       <option name="project" value="LOCAL" />
       <updated>1494324030581</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Furthermore created generics for AI algorithms">
+      <created>1494327911445</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1494327911445</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TodoView">
