@@ -5,9 +5,10 @@ import org.joml.Vector3f;
 import static org.lwjgl.glfw.GLFW.*;
 
 import org.joml.Vector3i;
-import org.lwjglb.AI.EnvironmentInt;
-import org.lwjglb.AI.PathFindingAlgorithm;
-import org.lwjglb.AI.VectorizedEnviromentGreedyPathFinding;
+import org.lwjglb.AI.*;
+import org.lwjglb.AI.pathFindingAlgorithms.PathFindingAlgorithm;
+import org.lwjglb.AI.pathFindingAlgorithms.PathFindingAlgorithmReDo;
+import org.lwjglb.AI.pathFindingAlgorithms.furthestFirst;
 import org.lwjglb.engine.GameItem;
 import org.lwjglb.engine.IGameLogic;
 import org.lwjglb.engine.MouseInput;
@@ -15,7 +16,6 @@ import org.lwjglb.engine.Window;
 import org.lwjglb.engine.graph.Camera;
 import org.lwjglb.engine.MainMenu;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -76,7 +76,7 @@ public class DummyGame implements IGameLogic {
         {
             public void run()
             {
-                new VectorizedEnviromentGreedyPathFinding<Integer>().
+                new PathFindingAlgorithmReDo<Integer>().
 
                         computeMovments(enviromentSize, agentsPosition, new LinkedList<Integer>()
                         {

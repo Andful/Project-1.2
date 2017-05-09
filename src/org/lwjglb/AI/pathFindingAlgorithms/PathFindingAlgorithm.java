@@ -1,4 +1,4 @@
-package org.lwjglb.AI;
+package org.lwjglb.AI.pathFindingAlgorithms;
 
 import org.joml.Vector3i;
 
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface PathFindingAlgorithm<AgentId>
 {
-    public void computeMovments(Vector3i sizeEnviroment, List<Vector3i> startConfiguration, List<AgentId> agents, List<Vector3i> endConfiguration, List<Vector3i> obstacle,List<List<Movment<AgentId>>> result);
+    public void computeMovments(Vector3i sizeEnviroment, List<Vector3i> startConfiguration, List<AgentId> agentsId, List<Vector3i> endConfiguration, List<Vector3i> obstacle,List<List<Movment<AgentId>>> result);
     public static class Movment<AgentId>
     {
         public Movment(AgentId id,Vector3i from,Vector3i to)

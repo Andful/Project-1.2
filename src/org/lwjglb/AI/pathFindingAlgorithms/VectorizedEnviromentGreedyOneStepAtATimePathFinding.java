@@ -1,4 +1,4 @@
-package org.lwjglb.AI;
+package org.lwjglb.AI.pathFindingAlgorithms;
 
 import org.joml.Vector3i;
 
@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Created by Andrea Nardi on 4/29/2017.
  */
-public class VectorizedEnviromentGreedyPathFinding<AgentId> implements PathFindingAlgorithm<AgentId>
+public class VectorizedEnviromentGreedyOneStepAtATimePathFinding<AgentId> implements PathFindingAlgorithm<AgentId>
 {
     public static final int OBSTACLE=-2;
     public static final int EMPTY=-1;
@@ -33,51 +33,74 @@ public class VectorizedEnviromentGreedyPathFinding<AgentId> implements PathFindi
                 agents.add(new Agent(id,iter.next()));
             }
         }
-        boolean[][][] agentsPosition = new boolean[sizeEnviroment.x][sizeEnviroment.y][sizeEnviroment.z];
-        for (Vector3i v : allAgentsPosition)
-        {
-            agentsPosition[v.x][v.y][v.z] = true;
-        }
+        boolean[][][] agentsPosition = getAgentPosition(allAgentsPosition, sizeEnviroment);
         for(Vector3i endPoint:endConfiguration)
         {
-            int[][][] enviroment=getLengthEnviroment(sizeEnviroment,obstacles,endPoint);
-            Agent head = null;
+            int[][][] enviroment = getLengthEnviroment(sizeEnviroment, obstacles, endPoint);
+            finish:
+            while(true)
             {
-                int distance=Integer.MAX_VALUE;
-                for(Agent a:agents)
+                Queue<Agent> headPriorityQueue = getHeadQueue(agents, enviroment);
+                Agent head;
+                https://www.google.com
+                while (headPriorityQueue.size() > 0)
                 {
-                    if(enviroment[a.pos.x][a.pos.y][a.pos.z]<distance && enviroment[a.pos.x][a.pos.y][a.pos.z]>=0)
+                    head = headPriorityQueue.remove();
+                    if (head.pos.equals(endPoint))
                     {
-                        head=a;
-                        distance=enviroment[a.pos.x][a.pos.y][a.pos.z];
+                        break finish;
+                    }
+                    Queue<Agent> tailPriorityQueue = getTails(enviroment, agentsPosition, agents, head);
+                    while (tailPriorityQueue.size() > 0)
+                    {
+                        Agent tail;
+                        Vector3i arrive;
+                        tail = tailPriorityQueue.remove();
+                        arrive = getArrivePosition(enviroment, agentsPosition, head.pos);
+                        if (pathFindSingleAgentBFS(enviroment, agentsPosition, tail, arrive, result))
+                        {
+                            break https;
+                        }
                     }
                 }
-
-            }
-            if(numberMovableAgents(agents,agentsPosition)>=2)
-            {
-                while(!head.pos.equals(endPoint))
-                {
-                    Vector3i arrive = getArrivePosition(enviroment, agentsPosition, head.pos);
-                    Queue<Agent> tails = getTails(enviroment, agentsPosition, agents, head);
-
-                    Agent tail = null;
-                    try
-                    {
-                        for (tail = tails.remove(); !pathFindSingleAgentBFS(enviroment, agentsPosition, tail, arrive, result); tail = tails.remove());
-                    } catch (NoSuchElementException e){
-                        pathFindSingleAgentBFS(enviroment,agentsPosition,head,endPoint,result);
-                        head=tail;
-                    }
-                    head = tail;
-                }
-                agents.remove(head);
-            }
-            else
-            {
-                pathFindSingleAgentBFS(enviroment,agentsPosition,findMovableAgent(agents,agentsPosition),endPoint,result);
             }
         }
+    }
+    private boolean[][][] getAgentPosition(List<Vector3i> agents,Vector3i enviromentSize)
+    {
+        boolean[][][] result=new boolean[enviromentSize.x][enviromentSize.y][enviromentSize.z];
+        for(Vector3i a:agents)
+        {
+            result[a.x][a.y][a.z]=true;
+        }
+        return result;
+    }
+    private Queue<Agent> getHeadQueue(List<Agent> agents,int[][][] enviroment)
+    {
+        LinkedList<Agent> result=new LinkedList<Agent>();
+        for(Agent agent :agents)
+        {
+            ListIterator<Agent> iter=result.listIterator();
+            while(true)
+            {
+                if(iter.hasNext())
+                {
+                    Agent head = iter.next();
+                    if (enviroment[agent.pos.x][agent.pos.y][agent.pos.z]>=0 && enviroment[head.pos.x][head.pos.y][head.pos.z] > enviroment[agent.pos.x][agent.pos.y][agent.pos.z])
+                    {
+                        iter.previous();
+                        iter.add(agent);
+                        break;
+                    }
+                }
+                else
+                {
+                    iter.add(agent);
+                    break;
+                }
+            }
+        }
+        return result;
     }
     private Agent findMovableAgent(List<Agent> agents,boolean[][][]agentsPosition)
     {
@@ -160,29 +183,14 @@ public class VectorizedEnviromentGreedyPathFinding<AgentId> implements PathFindi
             path.add(current);
             current=cameFrom[current.x][current.y][current.z];
         }
-
-        agents[end.x][end.y][end.z]=true;
-        List<Vector3i> result=new ArrayList<>(path.size()-1);
-        for(int i=0;i<path.size()-1;i++)
-        {
-            result.add(null);
-        }
-        int i=result.size()-1;
-        for(Iterator<Vector3i> it=path.iterator();i>=0;i--)
-        {
-            result.set(i,it.next());
-        }
-        Vector3i oldV=start;
-        for(Vector3i v:result)
-        {
-            LinkedList<Movment<AgentId>> list= new LinkedList<Movment<AgentId>>();
-            list.add(new Movment<AgentId>(agent.id,oldV, v));
-            toAdd.add(list);
-            oldV=v;
-        }
-        agent.pos.x=end.x;
-        agent.pos.y=end.y;
-        agent.pos.z=end.z;
+        Vector3i toMoveTo=path.get(path.size()-2);
+        agents[toMoveTo.x][toMoveTo.y][toMoveTo.z]=true;
+        LinkedList<Movment<AgentId>> list= new LinkedList<Movment<AgentId>>();
+        list.add(new Movment<AgentId>(agent.id,start, toMoveTo));
+        toAdd.add(list);
+        agent.pos.x=toMoveTo.x;
+        agent.pos.y=toMoveTo.y;
+        agent.pos.z=toMoveTo.z;
         return true;
     }
     private boolean hasAdiacentAgent(boolean[][][] agents,Vector3i agentPosition)

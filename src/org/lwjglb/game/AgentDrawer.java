@@ -2,7 +2,7 @@ package org.lwjglb.game;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
-import org.lwjglb.AI.PathFindingAlgorithm;
+import org.lwjglb.AI.pathFindingAlgorithms.PathFindingAlgorithm;
 import org.lwjglb.engine.GameItem;
 import org.lwjglb.engine.graph.Mesh;
 import org.lwjglb.engine.graph.ShaderProgram;
