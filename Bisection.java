@@ -58,9 +58,9 @@ public class Bisection<E> {
 			
 			public boolean stop(Float a, Float b) {
 				
-				float TOL = 0.01f;
+				float TOL = 0.0001f;
 				
-				return Math.abs(a-b)>TOL;
+				return Math.abs(a-b)<TOL;
 				
 			}
 		}
