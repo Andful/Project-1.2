@@ -76,7 +76,7 @@ public class DummyGame implements IGameLogic {
         {
             public void run()
             {
-                new PathFindingAlgorithmReDo<Integer>().
+                new furthestFirst<Integer>().
 
                         computeMovments(enviromentSize, agentsPosition, new LinkedList<Integer>()
                         {

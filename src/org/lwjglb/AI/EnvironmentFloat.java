@@ -7,7 +7,7 @@ import java.util.List;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 import org.joml.Vector3f;
 
-public class EnvironmentFloat {
+public class EnvironmentFloat{
 
 	private Vector3f environmentSize;
 	private List<Vector3f> obstaclesPositions;
