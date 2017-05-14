@@ -69,8 +69,6 @@ public class furthestFirst<AgentId> implements PathFindingAlgorithm<AgentId>
     }
     public boolean separates(Vector3i agentPosition,Array3D<Integer> blocks)
     {
-        boolean oneDFS=false;
-        Array3D<Boolean> checked=new Array3D<Boolean>(blocks.size(),false);
         class aFunction
         {
             public boolean doDFS(Vector3i pos,Array3D<Boolean> checked,Array3D<Integer> blocks)
@@ -78,24 +76,13 @@ public class furthestFirst<AgentId> implements PathFindingAlgorithm<AgentId>
                 if(checked.isInBound(pos) && !checked.get(pos) && blocks.get(pos)==AGENT)
                 {
                     checked.set(pos,true);
-                    for(int p=-1;p<=1;p+=2)
+                    for(Vector3i toUse : PathFindingAlgorithm.getAdiacentPosition(agentPosition))
                     {
+                        while(blocks.isInBound(toUse) && blocks.get(toUse)==OBSTACLE)
                         {
-                            Vector3i toUse = new Vector3i(agentPosition.x + p, agentPosition.y, agentPosition.z);
-                            while(blocks.isInBound(toUse) && blocks.get(toUse)==OBSTACLE)
-                            {
-                                toUse.y++;
-                            }
-                            doDFS(toUse,checked,blocks);
+                            toUse.y++;
                         }
-                        {
-                            Vector3i toUse = new Vector3i(agentPosition.x, agentPosition.y, agentPosition.z + p);
-                            while(blocks.isInBound(toUse) && blocks.get(toUse)==OBSTACLE)
-                            {
-                                toUse.y++;
-                            }
-                            doDFS(toUse,checked,blocks);
-                        }
+                        doDFS(toUse,checked,blocks);
                     }
                     return true;
                 }
@@ -106,40 +93,23 @@ public class furthestFirst<AgentId> implements PathFindingAlgorithm<AgentId>
             }
         }
         aFunction f=new aFunction();
-        for(int p=-1;p<=1;p+=2)
+        boolean oneDFS=false;
+        Array3D<Boolean> checked=new Array3D<Boolean>(blocks.size(),false);
+        checked.set(agentPosition,true);
+        for(Vector3i toUse : PathFindingAlgorithm.getAdiacentPosition(agentPosition))
         {
+            if(!oneDFS)
             {
-                Vector3i toUse = new Vector3i(agentPosition.x + p, agentPosition.y, agentPosition.z);
-                if(!oneDFS)
+                if(f.doDFS(toUse,checked,blocks))
                 {
-                    if(f.doDFS(toUse,checked,blocks))
-                    {
-                        oneDFS=true;
-                    }
-                }
-                else
-                {
-                    if(f.doDFS(toUse,checked,blocks))
-                    {
-                        return true;
-                    }
+                    oneDFS=true;
                 }
             }
+            else
             {
-                Vector3i toUse = new Vector3i(agentPosition.x, agentPosition.y, agentPosition.z + p);
-                if(!oneDFS)
+                if(f.doDFS(toUse,checked,blocks))
                 {
-                    if(f.doDFS(toUse,checked,blocks))
-                    {
-                        oneDFS=true;
-                    }
-                }
-                else
-                {
-                    if(f.doDFS(toUse,checked,blocks))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
         }
@@ -158,55 +128,29 @@ public class furthestFirst<AgentId> implements PathFindingAlgorithm<AgentId>
             Vector3i localTo=null;
             int localLength=Integer.MAX_VALUE;
             if (hasAdiacentAgent(agent.pos,blocks) &&
-                    (!blocks.isInBound(new Vector3i(agent.pos.x,agent.pos.y+1,agent.pos.z)) || blocks.get(agent.pos)!=AGENT) &&
+                    (!blocks.isInBound(PathFindingAlgorithm.above(agent.pos)) || blocks.get(PathFindingAlgorithm.above(agent.pos))!=AGENT) &&
                     !separates(agent.pos,blocks))
             {
-                for (int p = -1; p <= 1; p += 2)
+                for(Vector3i toUse:PathFindingAlgorithm.getAdiacentPosition(agent.pos))
                 {
-                    Vector3i pos = agent.pos;
+                    if (blocks.isInBound(toUse) && blocks.get(toUse) == AGENT &&
+                            blocks.get(PathFindingAlgorithm.above(agent.pos))==EMPTY)
                     {
-                        Vector3i toUse = new Vector3i(pos.x + p, pos.y, pos.z);
-                        if (blocks.isInBound(toUse) && blocks.get(toUse) == AGENT &&
-                                blocks.get(new Vector3i(agent.pos.x,agent.pos.y+1,agent.pos.z))==EMPTY)
-                        {
-                            toUse.y++;
-                        }
-                        while (blocks.isInBound(new Vector3i(toUse.x, toUse.y - 1, toUse.z)) &&
-                                blocks.get(new Vector3i(toUse.x, toUse.y - 1, toUse.z)) == EMPTY)
-                        {
-                            toUse.y--;
-                        }
-                        if (blocks.isInBound(toUse) &&
-                                hasAdiacentAgent(toUse,blocks) &&
-                                blocks.get(toUse) == EMPTY &&
-                                distance.get(toUse) != Integer.MAX_VALUE &&
-                                localLength > distance.get(toUse))
-                        {
-                            localLength = distance.get(toUse);
-                            localTo = toUse;
-                        }
+                        toUse.y++;
                     }
+                    while (blocks.isInBound(PathFindingAlgorithm.below(toUse)) &&
+                            blocks.get(PathFindingAlgorithm.below(toUse)) == EMPTY)
                     {
-                        Vector3i toUse = new Vector3i(pos.x, pos.y, pos.z+p);
-                        if (blocks.isInBound(toUse) && blocks.get(toUse) == AGENT &&
-                                blocks.get(new Vector3i(agent.pos.x,agent.pos.y+1,agent.pos.z))==EMPTY)
-                        {
-                            toUse.y++;
-                        }
-                        while (blocks.isInBound(new Vector3i(toUse.x, toUse.y - 1, toUse.z)) &&
-                                blocks.get(new Vector3i(toUse.x, toUse.y - 1, toUse.z)) == EMPTY)
-                        {
-                            toUse.y--;
-                        }
-                        if (blocks.isInBound(toUse) &&
-                                hasAdiacentAgent(toUse,blocks) &&
-                                blocks.get(toUse) == EMPTY &&
-                                distance.get(toUse) != Integer.MAX_VALUE &&
-                                localLength > distance.get(toUse))
-                        {
-                            localLength = distance.get(toUse);
-                            localTo = toUse;
-                        }
+                        toUse.y--;
+                    }
+                    if (blocks.isInBound(toUse) &&
+                            hasAdiacentAgent(toUse,blocks) && //maeby to change
+                            blocks.get(toUse) == EMPTY &&
+                            distance.get(toUse) != Integer.MAX_VALUE &&
+                            localLength > distance.get(toUse))
+                    {
+                        localLength = distance.get(toUse);
+                        localTo = toUse;
                     }
                 }
             }
@@ -218,9 +162,9 @@ public class furthestFirst<AgentId> implements PathFindingAlgorithm<AgentId>
             }
             blocks.set(agent.pos,AGENT);
         }
-        List<Movment<AgentId>> a=new LinkedList<>();
-        a.add(new Movment<AgentId>(globalToMove.id,new Vector3i(globalToMove.pos),new Vector3i(globalTo)));
-        result.add(a);
+        List<Movment<AgentId>> toAdd=new LinkedList<>();
+        toAdd.add(new Movment<AgentId>(globalToMove.id,new Vector3i(globalToMove.pos),new Vector3i(globalTo)));
+        result.add(toAdd);
         blocks.set(globalToMove.pos,EMPTY);
         blocks.set(globalTo,AGENT);
         globalToMove.pos=globalTo;
@@ -228,32 +172,22 @@ public class furthestFirst<AgentId> implements PathFindingAlgorithm<AgentId>
     }
     public boolean hasAdiacentAgent(Vector3i agent,Array3D<Integer> obstacles)
     {
-        for(int i=-1;i<=1;i+=2)
+        for(Vector3i toUse:PathFindingAlgorithm.getAdiacentPosition(agent))
         {
+            if(obstacles.isInBound(toUse) && obstacles.get(toUse)==AGENT)
             {
-                Vector3i toUse=new Vector3i(agent.x+i,agent.y,agent.z);
-                if(obstacles.isInBound(toUse) && obstacles.get(toUse)==AGENT)
-                {
-                    return true;
-                }
-            }
-            {
-                Vector3i toUse=new Vector3i(agent.x,agent.y+i,agent.z);
-                if(obstacles.isInBound(toUse) && obstacles.get(toUse)==AGENT)
-                {
-                    return true;
-                }
-            }
-            {
-                Vector3i toUse=new Vector3i(agent.x,agent.y,agent.z+i);
-                if(obstacles.isInBound(toUse) && obstacles.get(toUse)==AGENT)
-                {
-                    return true;
-                }
+                return true;
             }
         }
         {
-            Vector3i toUse=new Vector3i(agent.x,agent.y-1,agent.z);
+            Vector3i toUse=PathFindingAlgorithm.above(agent);
+            if(obstacles.isInBound(toUse) && obstacles.get(toUse)==AGENT)
+            {
+                return true;
+            }
+        }
+        {
+            Vector3i toUse=PathFindingAlgorithm.below(agent);
             if(obstacles.isInBound(toUse) && obstacles.get(toUse)==AGENT)
             {
                 return true;
@@ -288,48 +222,29 @@ public class furthestFirst<AgentId> implements PathFindingAlgorithm<AgentId>
         if(v.y>0 && blocks.get(new Vector3i(v.x,v.y-1,v.z))==EMPTY)
         {
 
-            Vector3i toUse=new Vector3i(v.x,v.y-1,v.z);
+            Vector3i toUse=PathFindingAlgorithm.below(v);
             if(result.isInBound(toUse) && result.get(toUse)==Integer.MAX_VALUE)
             {
                 result.set(toUse,length);
                 toAdd.add(toUse);
             }
         }
-
         {
-            for (int p = -1; p <= 1; p += 2)
+            List<Vector3i> positions=PathFindingAlgorithm.getAdiacentPosition(v);
+            for(Vector3i toUse:positions)
             {
+                while(blocks.isInBound(toUse) && blocks.get(toUse)!=EMPTY)
                 {
-                    Vector3i toUse = new Vector3i(v.x + p, v.y, v.z);
-                    while(blocks.isInBound(toUse) && blocks.get(toUse)!=EMPTY)
-                    {
-                        toUse.y++;
-                    }
-                    if(blocks.isInBound(new Vector3i(toUse.x,toUse.y-1,toUse.z)) && blocks.get(new Vector3i(toUse.x,toUse.y-1,toUse.z))==EMPTY)
-                    {
-                        toUse.y--;
-                    }
-                    if(result.isInBound(toUse) && result.get(toUse)==Integer.MAX_VALUE)
-                    {
-                        result.set(toUse,length);
-                        toAdd.add(toUse);
-                    }
+                    toUse.y++;
                 }
+                if(blocks.isInBound(PathFindingAlgorithm.below(toUse)) && blocks.get(PathFindingAlgorithm.below(toUse))==EMPTY)
                 {
-                    Vector3i toUse = new Vector3i(v.x, v.y, v.z + p);
-                    while(blocks.isInBound(toUse) && blocks.get(toUse)!=EMPTY)
-                    {
-                        toUse.y++;
-                    }
-                    if(blocks.isInBound(new Vector3i(toUse.x,toUse.y-1,toUse.z)) && blocks.get(new Vector3i(toUse.x,toUse.y-1,toUse.z))==EMPTY)
-                    {
-                        toUse.y--;
-                    }
-                    if(result.isInBound(toUse) && result.get(toUse)==Integer.MAX_VALUE)
-                    {
-                        result.set(toUse,length);
-                        toAdd.add(toUse);
-                    }
+                    toUse.y--;
+                }
+                if(result.isInBound(toUse) && result.get(toUse)==Integer.MAX_VALUE)
+                {
+                    result.set(toUse,length);
+                    toAdd.add(toUse);
                 }
             }
         }
