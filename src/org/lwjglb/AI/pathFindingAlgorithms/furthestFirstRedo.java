@@ -3,15 +3,12 @@ package org.lwjglb.AI.pathFindingAlgorithms;
 import org.joml.Vector3i;
 import org.lwjglb.Util.Array3D;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Created by Andrea Nardi on 5/8/2017.
  */
-public class furthestFirst<AgentId> implements PathFindingAlgorithm<AgentId>
+public class furthestFirstRedo<AgentId> implements PathFindingAlgorithm<AgentId>
 {
     private final static int EMPTY=Integer.MAX_VALUE-2;
     private final static int OBSTACLE=Integer.MAX_VALUE-1;
@@ -62,7 +59,7 @@ public class furthestFirst<AgentId> implements PathFindingAlgorithm<AgentId>
             while(blocks.get(end)!=AGENT)
             {
                 Array3D<Integer> distance = generateDistanceArray(sizeEnviroment, blocks, end);
-                lastMoved=doSingleMove(movableAgents,blocks,distance,result);
+                lastMoved=doSingleMove(movableAgents,blocks,distance,end,result);
             }
             movableAgents.remove(lastMoved);
         }
@@ -118,59 +115,145 @@ public class furthestFirst<AgentId> implements PathFindingAlgorithm<AgentId>
         return false;
     }
     private int turn=0;
-    public Agent doSingleMove(List<Agent> movableAgents,Array3D<Integer> blocks,Array3D<Integer> distance,List<List<Movment<AgentId>>> result)
+    public Agent doSingleMove(List<Agent> movableAgents,Array3D<Integer> blocks,Array3D<Integer> distance,Vector3i endPosition,List<List<Movment<AgentId>>> result)
     {
+        PriorityQueue<Agent> priorityQueueToMove=getToMovePriorityQueue(movableAgents,endPosition,distance);
         Agent globalToMove=null;
         Vector3i globalTo=null;
-        int globalLength = -1;
-        turn++;
-        for(Agent agent:movableAgents)
+        int globalLength=-1;
+        while(!priorityQueueToMove.isEmpty())
         {
-            blocks.set(agent.pos,EMPTY);
+            Agent localToMove=priorityQueueToMove.remove();
+            blocks.set(localToMove.pos,EMPTY);
             Vector3i localTo=null;
             int localLength=Integer.MAX_VALUE;
-            if (hasAdiacentAgent(agent.pos,blocks) &&
-                    (!blocks.isInBound(PathFindingAlgorithm.above(agent.pos)) || blocks.get(PathFindingAlgorithm.above(agent.pos))!=AGENT) &&
-                    !separates(agent.pos,blocks))
+            if(!separates(localToMove.pos,blocks))
             {
-                for(Vector3i toUse:PathFindingAlgorithm.getAdiacentPosition(agent.pos))
+                List<Vector3i> adiacentPosition = PathFindingAlgorithm.getAdiacentPosition(localToMove.pos);
+                getLowestPosition(blocks, adiacentPosition);
+                for (Vector3i v : adiacentPosition)
                 {
-                    if (blocks.isInBound(toUse) && blocks.get(toUse) == AGENT &&
-                            blocks.get(PathFindingAlgorithm.above(agent.pos))==EMPTY)
+                    if (blocks.isInBound(v) &&
+                            blocks.get(v)==EMPTY &&
+                            localLength>distance.get(v) &&
+                            hasAdiacentAgent(v,blocks))
                     {
-                        toUse.y++;
-                    }
-                    while (blocks.isInBound(PathFindingAlgorithm.below(toUse)) &&
-                            blocks.get(PathFindingAlgorithm.below(toUse)) == EMPTY)
-                    {
-                        toUse.y--;
-                    }
-                    if (blocks.isInBound(toUse) &&
-                            hasAdiacentAgent(toUse,blocks) && //maeby to change
-                            blocks.get(toUse) == EMPTY &&
-                            distance.get(toUse) != Integer.MAX_VALUE &&
-                            localLength > distance.get(toUse))
-                    {
-                        localLength = distance.get(toUse);
-                        localTo = toUse;
+                        localTo=v;
+                        localLength=distance.get(v);
                     }
                 }
             }
-            if(localLength!=Integer.MAX_VALUE && localLength>globalLength)
+            if(localLength!=Integer.MAX_VALUE && globalLength<localLength && localLength<findDistance(localToMove.pos,endPosition,blocks))
             {
-                globalToMove=agent;
-                globalLength=localLength;
+                globalToMove=localToMove;
                 globalTo=localTo;
+                globalLength=localLength;
             }
-            blocks.set(agent.pos,AGENT);
+            blocks.set(localToMove.pos,AGENT);
         }
-        List<Movment<AgentId>> toAdd=new LinkedList<>();
-        toAdd.add(new Movment<AgentId>(globalToMove.id,new Vector3i(globalToMove.pos),new Vector3i(globalTo)));
-        result.add(toAdd);
         blocks.set(globalToMove.pos,EMPTY);
         blocks.set(globalTo,AGENT);
+        LinkedList<Movment<AgentId>> a=new LinkedList<>();
+        a.add(new Movment<AgentId>(globalToMove.id,globalToMove.pos,globalTo));
+        result.add(a);
         globalToMove.pos=globalTo;
         return globalToMove;
+    }
+    public int findDistance(Vector3i start,Vector3i end,Array3D<Integer> blocks)
+    {
+        class Fun
+        {
+            public void bfsOneStep(Queue<Vector3i>toAdd,Vector3i v,Array3D<Integer> result,Array3D<Integer> blocks,int length)
+            {
+                if(v.y>0 && blocks.get(new Vector3i(v.x,v.y-1,v.z))!=OBSTACLE)
+                {
+
+                    Vector3i toUse=PathFindingAlgorithm.below(v);
+                    if(result.isInBound(toUse) && result.get(toUse)==Integer.MAX_VALUE)
+                    {
+                        result.set(toUse,length);
+                        toAdd.add(toUse);
+                    }
+                }
+                {
+                    List<Vector3i> positions=PathFindingAlgorithm.getAdiacentPosition(v);
+                    for(Vector3i toUse:positions)
+                    {
+                        while(blocks.isInBound(toUse) && blocks.get(toUse)==OBSTACLE)
+                        {
+                            toUse.y++;
+                        }
+                        if(blocks.isInBound(PathFindingAlgorithm.below(toUse)) && blocks.get(PathFindingAlgorithm.below(toUse))!=OBSTACLE)
+                        {
+                            toUse.y--;
+                        }
+                        if(result.isInBound(toUse) && result.get(toUse)==Integer.MAX_VALUE)
+                        {
+                            result.set(toUse,length);
+                            toAdd.add(toUse);
+                        }
+                    }
+                }
+            }
+        }
+        Array3D<Integer> result= new Array3D<Integer>(blocks.size(),Integer.MAX_VALUE);
+        Queue<Vector3i> first=new LinkedList<>();
+        Queue<Vector3i> second=new LinkedList<>();
+        int length=1;
+        first.add(end);
+        result.set(end,0);
+        do
+        {
+            do
+            {
+                new Fun().bfsOneStep(second,first.remove(),result,blocks,length);
+            }
+            while(!first.isEmpty());
+            first=second;
+            second=new LinkedList<>();
+            length++;
+        }
+        while(!first.isEmpty());
+        return result.get(start);
+    }
+    public void getLowestPosition(Array3D<Integer> blocks,List<Vector3i> a)
+    {
+        for(Vector3i v:a)
+        {
+            if(blocks.isInBound(v))
+            {
+                if (blocks.get(v) == AGENT)
+                {
+                    v.y++;
+                }
+                while (blocks.isInBound(PathFindingAlgorithm.below(v)) && blocks.get(PathFindingAlgorithm.below(v)) == EMPTY)
+                {
+                    v.y--;
+                }
+            }
+        }
+    }
+    public PriorityQueue<Agent> getToMovePriorityQueue(List<Agent> agents,Vector3i endPosition,Array3D<Integer> distance)
+    {
+        PriorityQueue<Agent> result=new PriorityQueue<>(agents.size(),
+        (Agent a,Agent b)->{
+            double lengthA=new Vector3i(a.pos).sub(endPosition).length();
+            double lengthB=new Vector3i(b.pos).sub(endPosition).length();
+            if(lengthA>lengthB)
+            {
+                return -1;
+            }
+            if(lengthA<lengthB)
+            {
+                return 1;
+            }
+            return 0;
+        });
+        for(Agent agent:agents)
+        {
+            result.add(agent);
+        }
+        return result;
     }
     public boolean hasAdiacentAgent(Vector3i agent,Array3D<Integer> obstacles)
     {

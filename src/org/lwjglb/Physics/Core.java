@@ -1,73 +1,56 @@
 package org.lwjglb.Physics;
 
-import org.joml.Vector3f;
-import org.joml.Vector3fc;
+import org.joml.Vector2d;
+import org.joml.Vector3d;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 import org.lwjglb.Util.BisectionMethod;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Vector;
+
+import static java.lang.Math.pow;
 
 public class Core {
 
     //static Test test;
 
-    public static Vector3f getAcceleration(Vector3f velocity){
-        return new Vector3f(velocity).mul(-1).normalize().mul(100);//TODO
+    public static Vector3d getAcceleration(Vector3d velocity){
+        return new Vector3d(velocity).mul(-1).normalize().mul(100);//TODO
     }
-    public static Vector3f getVelocity(Vector3f initialPosition,Vector3f endPosition, float TOL, float dt)
+    public static Vector3d getVelocity(Vector3d initialPosition, Vector3d endPosition, List<Vector3d> blocks, float dt)
     {
-        BisectionMethod<Vector3f> solver = new BisectionMethod<>();
-        class FunctionSet implements BisectionMethod.FunctionSet<Vector3f>
-        {
-            public boolean fIsEqualToZero(Vector3f e){
-                return false;
-            }
-            public boolean fIsSmallerThanZero(Vector3f e){
-                Vector3f result = getEndPosition(initialPosition, e, dt);
-                return (new Vector3f(endPosition).sub(initialPosition).length() < new Vector3f(result).sub(initialPosition).length());
-            }
-
-            public Vector3f getAverage(Vector3f a,Vector3f b){
-                Vector3f average = new Vector3f(a);
-
-                average.add(b);
-
-                average.mul(0.5f);
-
-                return average;
-
-            }
-            public boolean stop(Vector3f a,Vector3f b){
-
-                Vector3f distance = new Vector3f(a).sub(b);
-
-                return distance.length() < TOL;
-            }
-        }
-        return new BisectionMethod<Vector3f>().findRoot(new Vector3f(),new Vector3f(100000,0,0),new FunctionSet());//TODO
+        return getVelocity(initialPosition,new Vector2d(endPosition.x,endPosition.z),blocks,dt);
     }
-    public static Vector3f getEndPosition(Vector3f initialPosition, Vector3f initialVelocity, float dt){
+    public static Vector3d getVelocity(Vector3d initialPosition, Vector2d endPosition, List<Vector3d> blocks, float dt)
+    {
+        Vector3d velocityDirection=new Vector3d(endPosition.x,initialPosition.y,endPosition.y).sub(initialPosition);
+        Vector3d oldPosition=new Vector3d(initialPosition);
+        Vector3d position=new Vector3d(initialPosition);
+        Vector3d oldAcceleration=Constants.getAcceleration(velocityDirection,position,blocks).mul(-1);
+        Vector3d acceleration=oldAcceleration;
+        Vector3d oldVelocity=new Vector3d();
+        Vector3d velocity=new Vector3d();
+        while(pow(position.x-initialPosition.x,2)+pow(position.z-initialPosition.z,2)<pow(endPosition.x-initialPosition.x,2)+pow(endPosition.y-initialPosition.z,2))
+        {
+            position.add(new Vector3d(oldVelocity).add(velocity).mul(dt/2));
+            oldVelocity=velocity;
+            velocity=new Vector3d(oldAcceleration).add(acceleration).mul(dt/2).add(velocity);
+            oldAcceleration=acceleration;
+            acceleration=Constants.getAcceleration(velocityDirection,position,blocks).mul(-1);
+        }
 
-        Vector3f velocity = new Vector3f(initialVelocity);
-        Vector3f position = new Vector3f(initialPosition);
+        return oldVelocity;
+    }
+    public static Vector3d getEndPosition(Vector3d initialPosition, Vector3d initialVelocity, List<Vector3d> blocks, float dt){
 
-        while(new Vector3f(velocity).add(initialVelocity).length() > initialVelocity.length()){
+        Vector3d velocity = new Vector3d(initialVelocity);
+        Vector3d position = new Vector3d(initialPosition);
 
-            position = new Vector3f(position).add(new Vector3f(velocity).mul(dt));
-			
-			/*
-			test.position = position;
-			
-			
-			try
-			{
-				Thread.sleep(1);
-			}
-			catch(Exception e)
-			{
-			
-			}
-			*/
-
-            velocity = new Vector3f(velocity).add(new Vector3f(getAcceleration(initialVelocity).mul(dt)));
-
+        while(new Vector3d(velocity).add(initialVelocity).length() > initialVelocity.length()){
+            position = new Vector3d(position).add(new Vector3d(velocity).mul(dt));
+            velocity = new Vector3d(velocity).add(new Vector3d(Constants.getAcceleration(initialVelocity,position,blocks).mul(dt)));
         }
 
         return position;
@@ -75,7 +58,13 @@ public class Core {
     }
 
     public static void main(String[] args){
-        //getEndPosition(new Vector3f(), new Vector3f(250,0,0), 0.001f);
-        System.out.println(getVelocity(new Vector3f(),new Vector3f(10,0,0),0.001f,0.001f));
+        //getEndPosition(new Vector3d(), new Vector3d(250,0,0), 0.001f);
+        System.out.println(getVelocity(new Vector3d(0,1,0),new Vector3d(1,1,0),new LinkedList<Vector3d>()
+                {
+                        {
+                            //add(new Vector3d());
+                            //add(new Vector3d(1,0,0));
+                        }
+                },0.0001f).x);
     }
 }

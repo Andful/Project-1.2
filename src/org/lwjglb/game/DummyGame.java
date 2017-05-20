@@ -9,6 +9,7 @@ import org.lwjglb.AI.*;
 import org.lwjglb.AI.pathFindingAlgorithms.PathFindingAlgorithm;
 import org.lwjglb.AI.pathFindingAlgorithms.PathFindingAlgorithmReDo;
 import org.lwjglb.AI.pathFindingAlgorithms.furthestFirst;
+import org.lwjglb.AI.pathFindingAlgorithms.furthestFirstRedo;
 import org.lwjglb.engine.GameItem;
 import org.lwjglb.engine.IGameLogic;
 import org.lwjglb.engine.MouseInput;
@@ -76,7 +77,7 @@ public class DummyGame implements IGameLogic {
         {
             public void run()
             {
-                new furthestFirst<Integer>().
+                new PathFindingAlgorithmReDo<Integer>().
 
                         computeMovments(enviromentSize, agentsPosition, new LinkedList<Integer>()
                         {

@@ -25,7 +25,6 @@ public class BisectionMethod<E> {
                 else{
                     a = p;
                 }
-                System.out.println(a+" "+p+" "+b);
             }
             return fs.getAverage(a,b);
         }
