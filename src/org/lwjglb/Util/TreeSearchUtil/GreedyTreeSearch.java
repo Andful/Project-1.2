@@ -1,4 +1,4 @@
-package lwjglb.Util.TreeUtil;
+package org.lwjglb.Util.TreeSearchUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,33 +7,33 @@ import java.util.List;
  * Created by Lucas on 20/05/2017.
  */
 public class GreedyTreeSearch<Node> extends TreeSearch<Node> {
-    private Node root;
-    private FunctionSet<Node> fs;
-    public GreedyTreeSearch(Node root,FunctionSet<Node> fs){
-        this.root = root;
-        this.fs = fs;
-    }
-    public List<Node> getNode(){
+    public List<Node> getNodes(FunctionSet<Node> fs,WeightedNode<Node> root)
+    {
         LinkedList<Node> result=new LinkedList();
-        result.add(root);
-        Node temp=root;
-        while(!fs.stop(temp))
+        result.add(root.node);
+        WeightedNode<Node> temp=root;
+        while(true)
         {
             List<WeightedNode<Node>> toCheck=fs.expand(temp);
-            if(toCheck.size()==0) {
-            return result;
+            if(toCheck.isEmpty())
+            {
+                break;
             }
             else
             {
-                WeightedNode<Node> max=null;
+                WeightedNode<Node> max=temp;
                 for(WeightedNode<Node> wn:toCheck)
                 {
                     if(max==null||max.weight>wn.weight) {
                         max=wn;
                     }
                 }
+                if(temp==max)
+                {
+                    break;
+                }
                 result.add(max.node);
-                temp=max.node;
+                temp=max;
             }
         }
         return result;

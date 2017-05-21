@@ -1,4 +1,4 @@
-package lwjglb.Util.TreeUtil;
+package org.lwjglb.Util.TreeSearchUtil;
 
 import java.util.List;
 
@@ -8,8 +8,7 @@ import java.util.List;
 public abstract class  TreeSearch<Node> {
 
     public static interface FunctionSet<Node> {
-        List<WeightedNode<Node>> expand(Node node);
-        boolean stop(Node nodes);
+        List<WeightedNode<Node>> expand(WeightedNode<Node> node);
     }
 
     public static class WeightedNode<Node> {
@@ -21,5 +20,5 @@ public abstract class  TreeSearch<Node> {
 
         }
     }
-    public abstract List<Node> getNode();
+    public abstract List<Node> getNodes(FunctionSet<Node> fs,WeightedNode<Node> node);
 }
