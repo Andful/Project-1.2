@@ -24,7 +24,7 @@ public class GreedyTreeSearch<Node> extends TreeSearch<Node> {
                 WeightedNode<Node> max=temp;
                 for(WeightedNode<Node> wn:toCheck)
                 {
-                    if(max==null||max.weight>wn.weight) {
+                    if(max.weight>wn.weight) {
                         max=wn;
                     }
                 }

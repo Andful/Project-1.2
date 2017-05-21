@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdbceb9c-ef81-4a55-b517-20a7d3f5be94" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/lwjglb/Util/GreedyTreeSearch.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/Util/TreeSearchUtil/GreedyTreeSearch.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/lwjglb/Util/TreeSearch.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/Util/TreeSearchUtil/TreeSearch.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/lwjglb/Util/TreeSearchUtil/GreedyTreeSearch.java" afterPath="$PROJECT_DIR$/src/org/lwjglb/Util/TreeSearchUtil/GreedyTreeSearch.java" />
     </list>
     <ignored path="ModRob.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,8 +54,8 @@
       <file leaf-file-name="GreedyTreeSearch.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/lwjglb/Util/TreeSearchUtil/GreedyTreeSearch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="477">
-              <caret line="35" column="24" lean-forward="false" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="24" />
+            <state relative-caret-position="342">
+              <caret line="26" column="23" lean-forward="false" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -1195,7 +1194,14 @@
       <option name="project" value="LOCAL" />
       <updated>1495289788973</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Furthermore created generics for AI algorithms">
+      <created>1495362633439</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1495362633439</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1690,8 +1696,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/lwjglb/Util/TreeSearchUtil/GreedyTreeSearch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="477">
-          <caret line="35" column="24" lean-forward="false" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="24" />
+        <state relative-caret-position="342">
+          <caret line="26" column="23" lean-forward="false" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
           <folding />
         </state>
       </provider>
