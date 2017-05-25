@@ -91,7 +91,4 @@ public class PathFinding<Node>
         }
         return null;
     }
-    public static void main(String[] args)
-    {
-    }
 }

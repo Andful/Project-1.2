@@ -21,19 +21,19 @@ public class GreedyTreeSearch<Node> extends TreeSearch<Node> {
             }
             else
             {
-                WeightedNode<Node> max=temp;
+                WeightedNode<Node> min=temp;
                 for(WeightedNode<Node> wn:toCheck)
                 {
-                    if(max.weight>wn.weight) {
-                        max=wn;
+                    if(min.weight>wn.weight) {
+                        min=wn;
                     }
                 }
-                if(temp==max)
+                if(temp==min)
                 {
                     break;
                 }
-                result.add(max.node);
-                temp=max;
+                result.add(min.node);
+                temp=min;
             }
         }
         return result;
